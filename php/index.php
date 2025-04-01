@@ -16,13 +16,13 @@ $app->get('/alunni/{id:\d+}', "AlunniController:show");  //mostro alunno con id 
 $app->post('/alunni', "AlunniController:create");  //aggiungo alunno
 
 // curl -X PUT http://localhost:8080/alunni/2 -H "Content-Type: application/json" -d '{"nome": "ciccio", "cognome": "bello"}'
-$app->put('/alunni/{id:\d+}', "AlunniController:update");  //aggiorno l'alunno
+$app->put('/alunni/{id:\d+}', "AlunniController:update");  //aggiorno/modifico l'alunno
 
 // curl -X DELETE http://localhost:8080/alunni/2
 $app->delete('/alunni/{id:\d+}', "AlunniController:destroy");  //elimina alunno
 
+$app->get('/search/alunni/{key}' , "AlunniController:search"); //ricerca
 
-
-
+$app->get('/sort/alunni/{col}' , "AlunniController:sort"); //ordinamento
 
 $app->run();

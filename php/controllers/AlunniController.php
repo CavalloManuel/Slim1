@@ -71,4 +71,39 @@ class AlunniController
     $response->getBody()->write(json_encode($mess));
     return $response->withHeader("Content-type", "application/json")->withStatus(200);
   }
+
+  public function search(Request $request, Response $response, $args){     //search --> ricerca
+    $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
+    $result = $mysqli_connection->query("SELECT * FROM alunni WHERE (nome LIKE '%". $args["key"]."%' OR cognome LIKE '%". $args["key"]."%')");
+    $results = $result->fetch_all(MYSQLI_ASSOC);
+
+    $response->getBody()->write(json_encode($results));
+    return $response->withHeader("Content-type", "application/json")->withStatus(200);
+  }
+
+  public function sort(Request $request, Response $response, $args){     //search --> ricerca
+    $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
+    
+
+    $found = false;
+    $columns = $mysqli_connection->query("describe alunni")->fetch_all(MYSQLI_ASSOC); //query che fa vedere non solo il field(id, nome, cognome) ma anche type, key ecc..
+    foreach($columns as $col){  //controllo se la colonna inserita esiste
+      if($col["Field"] == $args["col"]){
+        $found = true;
+        break;
+      }
+    }
+
+    if(!$found){ //se non esiste
+      $response->getBody()->write("Colonna non trovata");
+      return $response->withHeader("Content-type", "application/json")->withStatus(404);
+    }
+
+
+    $results = $mysqli_connection->query("SELECT * FROM alunni ORDER BY " . $args["col"] . " ASC")->fetch_all(MYSQLI_ASSOC);
+    $response->getBody()->write(json_encode($results));
+    return $response->withHeader("Content-type", "application/json")->withStatus(200);
+  }
+
 }
+
