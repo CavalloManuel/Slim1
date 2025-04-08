@@ -3,11 +3,14 @@ use Slim\Factory\AppFactory;
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/controllers/AlunniController.php';
+require __DIR__ . '/controllers/CertificazioniController.php';
 
 $app = AppFactory::create();
 
+//ALUNNI
+
 // curl http://localhost:8080/alunni
-$app->get('/alunni', "AlunniController:index");
+$app->get('/alunni', "AlunniController:index"); 
 
 // curl http://localhost:8080/alunni/2
 $app->get('/alunni/{id:\d+}', "AlunniController:show");  //mostro alunno con id specifico
@@ -24,5 +27,18 @@ $app->delete('/alunni/{id:\d+}', "AlunniController:destroy");  //elimina alunno
 $app->get('/search/alunni/{key}' , "AlunniController:search"); //ricerca
 
 $app->get('/sort/alunni/{col}' , "AlunniController:sort"); //ordinamento
+
+
+
+//CERTIFICAZIONI
+
+// curl http://localhost:8080/alunni/1/certificazioni
+$app->get('/alunni/{id:\d+}/certificazioni', "CertificazioniController:index"); 
+
+// curl http://localhost:8080/alunni/1/certificazioni/1
+$app->get('/alunni/{id:\d+}/certificazioni/{id_cert:\d+}', "CertificazioniController:show");
+
+
+
 
 $app->run();
