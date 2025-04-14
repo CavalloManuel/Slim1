@@ -38,7 +38,14 @@ $app->get('/alunni/{id:\d+}/certificazioni', "CertificazioniController:index");
 // curl http://localhost:8080/alunni/1/certificazioni/1
 $app->get('/alunni/{id:\d+}/certificazioni/{id_cert:\d+}', "CertificazioniController:show");
 
+// curl -X POST http://localhost:8080/alunni/2/certificazioni -H "Content-Type: application/json" -d '{"nome": "ciccio", "cognome": "bello"}'
+$app->post('/alunni/{id:\d+}/cert', "CertificazioniController:create");
 
+// curl -X PUT http://localhost:8080/alunni/2/certificazioni/3 -H "Content-Type: application/json" -d '{"nome": "ciccio", "cognome": "bello"}'
+$app->put('/alunni/{id:\d+}/cert/{id_cert:\d+}', "CertificazioniController:update");
+
+// curl -X DELETE http://localhost:8080/alunni/2/certificazioni/3
+$app->delete('/alunni/{id:\d+}/cert/{id_cert:\d+}', "CertificazioniController:destroy");
 
 
 $app->run();
